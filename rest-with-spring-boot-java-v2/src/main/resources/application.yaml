@@ -1,3 +1,6 @@
 spring:
   application:
     name: rest-with-spring-boot-java-v2
+
+server:
+  port: 8081
