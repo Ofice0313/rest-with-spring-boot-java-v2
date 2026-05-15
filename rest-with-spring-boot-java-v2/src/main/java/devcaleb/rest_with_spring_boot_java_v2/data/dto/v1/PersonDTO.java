@@ -1,6 +1,4 @@
-package devcaleb.rest_with_spring_boot_java_v2.data.dto;
-
-import jakarta.persistence.*;
+package devcaleb.rest_with_spring_boot_java_v2.data.dto.v1;
 
 import java.io.Serializable;
 import java.util.Objects;
