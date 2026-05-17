@@ -1,5 +1,6 @@
 package devcaleb.rest_with_spring_boot_java_v2.services;
 
+import devcaleb.rest_with_spring_boot_java_v2.controllers.PersonController;
 import devcaleb.rest_with_spring_boot_java_v2.data.dto.v1.PersonDTO;
 import devcaleb.rest_with_spring_boot_java_v2.data.dto.v2.PersonDTOV2;
 import devcaleb.rest_with_spring_boot_java_v2.entities.Person;
@@ -15,6 +16,8 @@ import java.util.logging.Logger;
 
 import static devcaleb.rest_with_spring_boot_java_v2.mapper.ObjectMapper.parseListObjects;
 import static devcaleb.rest_with_spring_boot_java_v2.mapper.ObjectMapper.parseObject;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 public class PersonService {
@@ -39,7 +42,22 @@ public class PersonService {
 
         var entity = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No records found for this " + id));
-        return parseObject(entity, PersonDTO.class);
+        var dto = parseObject(entity, PersonDTO.class);
+        addHateoasLinks(id, dto);
+        return dto;
+    }
+
+    private static void addHateoasLinks(Long id, PersonDTO dto) {
+        dto.add(linkTo(methodOn(PersonController.class)
+                .findById(id)).withSelfRel().withType("GET"));
+        dto.add(linkTo(methodOn(PersonController.class)
+                .delete(id)).withRel("delete").withType("DELETE"));
+        dto.add(linkTo(methodOn(PersonController.class)
+                .create(dto)).withRel("create").withType("POST"));
+        dto.add(linkTo(methodOn(PersonController.class)
+                .update(dto)).withRel("update").withType("PUT"));
+        dto.add(linkTo(methodOn(PersonController.class)
+                .findAll()).withRel("findAll").withType("GET"));
     }
 
     public PersonDTO create(PersonDTO person) {
