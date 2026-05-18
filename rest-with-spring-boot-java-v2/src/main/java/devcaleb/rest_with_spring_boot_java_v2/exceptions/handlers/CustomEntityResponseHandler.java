@@ -1,6 +1,7 @@
 package devcaleb.rest_with_spring_boot_java_v2.exceptions.handlers;
 
 import devcaleb.rest_with_spring_boot_java_v2.exceptions.ExceptionResponse;
+import devcaleb.rest_with_spring_boot_java_v2.exceptions.RequiredObjectIsNullException;
 import devcaleb.rest_with_spring_boot_java_v2.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,5 +35,15 @@ public class CustomEntityResponseHandler extends ResponseEntityExceptionHandler 
                 request.getDescription(false)
         );
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RequiredObjectIsNullException.class)
+    public final ResponseEntity<ExceptionResponse> handleBasRequestException(Exception exception, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(),
+                exception.getMessage(),
+                request.getDescription(false)
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

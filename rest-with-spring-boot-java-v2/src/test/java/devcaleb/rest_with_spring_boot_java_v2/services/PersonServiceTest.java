@@ -2,6 +2,7 @@ package devcaleb.rest_with_spring_boot_java_v2.services;
 
 import devcaleb.rest_with_spring_boot_java_v2.data.dto.v1.PersonDTO;
 import devcaleb.rest_with_spring_boot_java_v2.entities.Person;
+import devcaleb.rest_with_spring_boot_java_v2.exceptions.RequiredObjectIsNullException;
 import devcaleb.rest_with_spring_boot_java_v2.repositories.PersonRepository;
 import devcaleb.rest_with_spring_boot_java_v2.unittests.mapper.mocks.MockPerson;
 import org.junit.jupiter.api.BeforeEach;
@@ -127,6 +128,19 @@ class PersonServiceTest {
     }
 
     @Test
+    void testCreateWithNullPerson() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class,
+                () -> {
+            service.create(null);
+        });
+
+        String expectedMessage = "It is not allowed to persist a null object!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
     void update() {
 
         Person person = input.mockEntity(1);
@@ -176,6 +190,19 @@ class PersonServiceTest {
     }
 
     @Test
+    void testUpdateWithNullPerson() {
+        Exception exception = assertThrows(RequiredObjectIsNullException.class,
+                () -> {
+                    service.create(null);
+                });
+
+        String expectedMessage = "It is not allowed to persist a null object!";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
     void delete() {
         Person person = input.mockEntity(1);
         person.setId(1L);
@@ -185,7 +212,7 @@ class PersonServiceTest {
         service.delete(1L);
         verify(repository, times(1)).findById(anyLong());
         verify(repository, times(1)).delete(any(Person.class));
-        verifyNoInteractions(repository);
+        verifyNoMoreInteractions(repository);
     }
 
     @Test
