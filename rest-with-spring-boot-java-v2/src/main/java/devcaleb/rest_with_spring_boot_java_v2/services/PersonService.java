@@ -1,12 +1,10 @@
 package devcaleb.rest_with_spring_boot_java_v2.services;
 
 import devcaleb.rest_with_spring_boot_java_v2.controllers.PersonController;
-import devcaleb.rest_with_spring_boot_java_v2.data.dto.v1.PersonDTO;
-import devcaleb.rest_with_spring_boot_java_v2.data.dto.v2.PersonDTOV2;
+import devcaleb.rest_with_spring_boot_java_v2.data.dto.PersonDTO;
 import devcaleb.rest_with_spring_boot_java_v2.entities.Person;
 import devcaleb.rest_with_spring_boot_java_v2.exceptions.RequiredObjectIsNullException;
 import devcaleb.rest_with_spring_boot_java_v2.exceptions.ResourceNotFoundException;
-import devcaleb.rest_with_spring_boot_java_v2.mapper.custom.PersonMapper;
 import devcaleb.rest_with_spring_boot_java_v2.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +27,6 @@ public class PersonService {
 
     @Autowired
     private PersonRepository repository;
-
-    @Autowired
-    private PersonMapper converter;
 
     public List<PersonDTO> findAll() {
         logger.info("Finding all People");
