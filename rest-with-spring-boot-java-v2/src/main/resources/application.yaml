@@ -17,5 +17,9 @@ server:
   port: 8081
 logging:
   level:
-    #root: WARN
-    devcaleb.rest_with_spring_boot_java_v2: DEBUG
+    root: INFO
+    #devcaleb.rest_with_spring_boot_java_v2: DEBUG
+spring-doc:
+  paths-to-match: /api/**/**
+  swagger-ui:
+    use-root-path: true

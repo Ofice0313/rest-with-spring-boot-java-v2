@@ -74,13 +74,6 @@ public class PersonService {
         return dto;
     }
 
-    public PersonDTOV2 createV2(PersonDTOV2 person) {
-        logger.info("Creating a Person V2");
-
-        var entity = converter.convertDTOToEntity(person);
-        return converter.convertEntityToDTO(repository.save(entity));
-    }
-
     public PersonDTO update(PersonDTO person) {
         logger.info("Updating a Person");
         Person entity = repository.findById(person.getId())
